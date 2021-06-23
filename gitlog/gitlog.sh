@@ -13,15 +13,17 @@
 # 1. √可以选择：昨天，今天，上周，本周
 # 2. √加载完后自动打开
 # 3. 添加序号
-# 4. 打印多份日志
+# 4. √打印多份日志
+# 5. √可打印多用户名日志
 
 #----- 用户自定义修改部分 -----#
 # .git文件路径，可以输入多个。
-# 例子：inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/script' '...')
+# 例子：`inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/script' '...')`
 inputPaths=( '/Users/bii/Documents/working/merry' '/Users/bii/Documents/working/script' )
 # 日志输出路径
 outPath="/Users/bii/Desktop/"
-# 需要查询的用户名或者邮箱，可使用正则
+# 需要查询的用户名或者邮箱，可使用正则，可打印多人
+# 例子：打印用户名`user="lzq\|Bii"`
 user="lzq"
 #----------- end ----------#
 
