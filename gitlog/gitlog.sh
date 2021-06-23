@@ -10,16 +10,17 @@
 #----------- end ----------#
 
 # TODO:
-# 1. √可以选择：昨天，今天，上周，本周（可选）
+# 1. √可以选择：昨天，今天，上周，本周
 # 2. √加载完后自动打开
 # 3. 添加序号
 # 4. 打印多份日志
 
 #----- 用户自定义修改部分 -----#
-# .git文件路径
-inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/script' )
+# .git文件路径，可以输入多个。
+# 例子：inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/script' '...')
+inputPaths=( '/Users/bii/Documents/working/merry' '/Users/bii/Documents/working/script' )
 # 日志输出路径
-outPath="/Users/mac/Desktop"
+outPath="/Users/bii/Desktop/"
 # 需要查询的用户名或者邮箱，可使用正则
 user="lzq"
 #----------- end ----------#
@@ -76,7 +77,7 @@ if [[ ${param1} == "date" ]];then
         read selectDate
 
         if (( $selectDate > 4 || $selectDate <= 0 ));then
-            echo "超出选择范围，请重新选择"
+            echo -e "\033[31m超出选择范围，请重新选择\033[0m"
         else
             break
         fi
@@ -105,7 +106,7 @@ elif [[ ${param1} == '' ]];then
     changeDate ${today}
 fi
 
-echo "打印时间段：${startDate} - ${endDate}"
+echo -e "\033[35m打印时间段：${startDate} - ${endDate}\033[0m"
 
 # 获取当前时间
 date=$(date "+%Y%m%d%H%M%S")
@@ -114,16 +115,14 @@ date=$(date "+%Y%m%d%H%M%S")
 logPath=${outPath}/${date}.txt
 
 for path in ${inputPaths[@]}; do
-    echo "正在打印：${path}"
+    echo -e "\033[35m正在打印：${path}\033[0m"
     cd ${path}
     git shortlog --author=${user} --since="${startDate}" --until="${endDate}" >> ${logPath}
 done
 
-# for path in ${!inputPaths[@]}; do
-#     # cd ${path}
-#     echo "正在打印：${path}"
-#     # git shortlog --author=${user} --since="${startDate}" --until="${endDate}" >> ${logPath}
-# done
-
-echo -e "\033[32m日志打印结束，文件路径${logPath} \033[0m"
-open ${logPath}
+if [ ! -f ${logPath} ]; then
+    echo -e "\033[31m打印失败\033[0m"
+else
+    echo -e "\033[32m日志打印结束，文件路径${logPath} \033[0m"
+    open ${logPath}
+fi
