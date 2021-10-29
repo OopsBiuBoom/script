@@ -10,7 +10,7 @@
 #----------- end ----------#
 
 # TODO:
-# 1. √可以选择：昨天，今天，上周，本周
+# 1. √可以选择：昨天，今天，上周，本周，本月，上月
 # 2. √加载完后自动打开
 # 3. 添加序号
 # 4. √打印多份日志
@@ -37,6 +37,30 @@ today="today"
 yesterday="yesterday"
 week="week"
 lastweek="lastweek"
+month="month"
+lastmonth="lastmonth"
+
+# 获取当月最后一天
+lastDay(){
+    f1=$1
+    case $f1 in 
+        [13578])
+            return 31
+            ;;
+        10)
+            return 31
+            ;;
+        12)
+            return 31
+            ;;
+        [2469])
+            return 30
+            ;;
+        11)
+            return 30
+            ;;
+    esac
+}
 
 # 修改时间
 changeDate() {
@@ -62,6 +86,20 @@ changeDate() {
             startDate=$(date -v1w -v-1w "+%Y-%m-%d 00:00:00")
             endDate=$(date -v0w "+%Y-%m-%d 23:59:59")
             ;;
+        ${month})
+            # 本月
+            startDate=$(date "+%Y-%m-01 00:00:00")
+            m=$(date "+%b")
+            lastDay $m
+            endDate=$(date "+%Y-%m-$? 23:59:59")
+            ;;
+        ${lastmonth})
+            # 上月
+            startDate=$(date -v-1m "+%Y-%m-01 00:00:00")
+            m=$(date -v-1m "+%b")
+            lastDay $m
+            endDate=$(date -v-1m "+%Y-%m-$? 23:59:59")
+            ;;
     esac
 }
 
@@ -74,11 +112,13 @@ if [[ ${param1} == "date" ]];then
         echo -e "\033[32m2. 昨天\033[0m"
         echo -e "\033[32m3. 本周\033[0m"
         echo -e "\033[32m4. 上周\033[0m"
+        echo -e "\033[32m5. 本月\033[0m"
+        echo -e "\033[32m6. 上月\033[0m"
         echo -e "\033[32m----------------------\033[0m"
 
         read selectDate
 
-        if (( $selectDate > 4 || $selectDate <= 0 ));then
+        if (( $selectDate > 6 || $selectDate <= 0 ));then
             echo -e "\033[31m超出选择范围，请重新选择\033[0m"
         else
             break
@@ -99,6 +139,12 @@ if [[ ${param1} == "date" ]];then
             ;;
         4)
             paramString=${lastweek}
+            ;;
+        5)
+            paramString=${month}
+            ;;
+        6)
+            paramString=${lastmonth}
             ;;
     esac
 
