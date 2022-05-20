@@ -15,13 +15,14 @@
 # 3. 添加序号
 # 4. √打印多份日志
 # 5. √可打印多用户名日志
+# 6. √可选择分支
 
 #----- 用户自定义修改部分 -----#
 # .git文件路径，可以输入多个。
 # 例子：`inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/script' '...')`
-inputPaths=( '/Users/bii/Documents/working/merry' '/Users/bii/Documents/working/script' )
+inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/working/MerryMerchant' )
 # 日志输出路径
-outPath="/Users/bii/Desktop/"
+outPath="/Users/mac/Desktop/"
 # 需要查询的用户名或者邮箱，可使用正则，可打印多人
 # 例子：打印用户名`user="lzq\|Bii"`
 user="lzq"
@@ -39,6 +40,57 @@ week="week"
 lastweek="lastweek"
 month="month"
 lastmonth="lastmonth"
+
+# 分支数组(顺序和inputPaths路径数组位置相同)
+branchTextList=()
+branchTextIndex=0
+# 获取分支信息
+selectBranchInfo(){
+    for path in ${inputPaths[@]}; do
+        cd ${path}
+
+        # 获取分支
+        branchIndex=0
+        branchList=()
+        for item in `git branch --format='%(refname:short)'`
+        do
+            branchList[branchIndex]=${item}
+            branchIndex=`expr ${branchIndex} + 1`
+        done
+
+        # 显示分支列表
+        echo "\033[32m----------------------\033[0m"
+        echo "\033[32m项目地址：${path}\033[0m"
+        echo "\033[31m请选择要打印的分支（可多选，序号之间用空格隔开，按回车确定）：\033[0m"
+        branchIndex=1
+        for item in ${branchList[@]}
+        do
+            echo "\033[32m${branchIndex}. ${item}\033[0m"
+            branchIndex=`expr ${branchIndex} + 1`
+        done
+        echo "\033[32m----------------------\033[0m"
+
+        echo "\033[32m请输入选择：\033[0m"
+        read selectBranch
+
+        selecttext=""
+        for selectIndex in $selectBranch
+        do
+            currentIndex=`expr ${selectIndex} - 1`
+            selecttext+=" ${branchList[currentIndex]}"
+        done
+
+        branchTextList[branchTextIndex]=${selecttext}
+
+        branchTextIndex=`expr ${branchTextIndex} + 1`
+    done
+
+    # 显示分支信息
+    pathCount=${#inputPaths[@]}
+    for((i=0;i<${pathCount};i++)); do  
+        echo "地址：${inputPaths[i]}，选择了分支有：${branchTextList[i]}"
+    done
+}
 
 # 获取当月最后一天
 lastDay(){
@@ -103,7 +155,7 @@ changeDate() {
     esac
 }
 
-if [[ ${param1} == "date" ]];then
+if [[ ${param1} == "option" ]];then
     # 时间选择
     while true; do
         echo -e "\033[32m----------------------\033[0m"
@@ -149,6 +201,9 @@ if [[ ${param1} == "date" ]];then
     esac
 
         changeDate ${paramString}
+
+        # 选择分支
+        selectBranchInfo
 elif [[ ${param1} == '' ]];then
     # 默认打印当前时间
     changeDate ${today}
@@ -162,10 +217,15 @@ date=$(date "+%Y%m%d%H%M%S")
 # 输出文件名
 logPath=${outPath}/${date}.txt
 
-for path in ${inputPaths[@]}; do
+# 打印日志
+pathCount=${#inputPaths[@]}
+for((i=0;i<${pathCount};i++)); do  
+    path=${inputPaths[i]}
+    branchText=${branchTextList[i]}
+
     echo -e "\033[35m正在打印：${path}\033[0m"
     cd ${path}
-    git shortlog --author=${user} --since="${startDate}" --until="${endDate}" >> ${logPath}
+    git shortlog --author=${user} --since="${startDate}" --until="${endDate}" ${branchText} >> ${logPath}
 done
 
 if [ ! -f ${logPath} ]; then
