@@ -30,12 +30,12 @@ user="lzq\|Bii"
 
 #----------- 帮助 ----------#
 
-if [[ $1 == "-h" ]];then
+if [[ $1 == "-h" || $1 == "-help" ]];then
     echo -e "\033[35m---------------------示例---------------------\033[0m"
     echo -e "\033[35m'sh gitlog.sh -d -b'，会弹出选择时间列表和分支列表\n\033[0m"
     echo -e "\033[35m---------以下是可用参数列表---------\033[0m"
-    echo -e "\033[35m1. 参数'-d'：可选择时间，date的首字母\033[0m"
-    echo -e "\033[35m2. 参数'-b'：可选择分支，branch的首字母\033[0m"
+    echo -e "\033[35m1. 参数'-d' 或 '-date'：可选择时间\033[0m"
+    echo -e "\033[35m2. 参数'-b' 或 '-branch'：可选择分支\033[0m"
     echo -e "\033[35m-------------------------------------\033[0m"
     exit 0
 fi
@@ -225,12 +225,12 @@ pidx=0
 for option in ${inputParams[@]}
 do
     # 时间选择
-    if [[ ${option} == "-d" ]];then
+    if [[ ${option} == "-d" || ${option} == "-date" ]];then
         selectDate
     fi
 
     # 分支选择
-    if [[ ${option} == "-b" ]];then
+    if [[ ${option} == "-b" || ${option} == "-branch" ]];then
         selectBranchInfo
     fi
 done
