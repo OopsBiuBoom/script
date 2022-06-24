@@ -20,9 +20,9 @@
 #----- 用户自定义修改部分 -----#
 # .git文件路径，可以输入多个。
 # 例子：`inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/script' '...')`
-inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/working/MerryMerchant' )
+inputPaths=( '/Users/meiyu/Documents/working/MerryMerchant' '/Users/meiyu/Documents/working/merry' '/Users/meiyu/Documents/working/meiplus')
 # 日志输出路径
-outPath="/Users/mac/Desktop/"
+outPath="/Users/meiyu/Desktop/"
 # 需要查询的用户名或者邮箱，可使用正则，可打印多人
 # 例子：打印用户名`user="lzq\|Bii"`
 user="lzq"
@@ -59,18 +59,18 @@ selectBranchInfo(){
         done
 
         # 显示分支列表
-        echo "\033[32m----------------------\033[0m"
-        echo "\033[32m项目地址：${path}\033[0m"
-        echo "\033[31m请选择要打印的分支（可多选，序号之间用空格隔开，按回车确定）：\033[0m"
+        echo -e "\033[32m----------------------\033[0m"
+        echo -e "\033[32m项目地址：${path}\033[0m"
+        echo -e "\033[31m请选择要打印的分支（可多选，序号之间用空格隔开，按回车确定）：\033[0m"
         branchIndex=1
         for item in ${branchList[@]}
         do
-            echo "\033[32m${branchIndex}. ${item}\033[0m"
+            echo -e "\033[32m${branchIndex}. ${item}\033[0m"
             branchIndex=`expr ${branchIndex} + 1`
         done
-        echo "\033[32m----------------------\033[0m"
+        echo -e "\033[32m----------------------\033[0m"
 
-        echo "\033[32m请输入选择：\033[0m"
+        echo -e "\033[32m请输入选择：\033[0m"
         read selectBranch
 
         selecttext=""
@@ -88,7 +88,7 @@ selectBranchInfo(){
     # 显示分支信息
     pathCount=${#inputPaths[@]}
     for((i=0;i<${pathCount};i++)); do  
-        echo "地址：${inputPaths[i]}，选择了分支有：${branchTextList[i]}"
+        echo -e "地址：${inputPaths[i]}，选择了分支有：${branchTextList[i]}"
     done
 }
 
