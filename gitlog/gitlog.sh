@@ -25,13 +25,21 @@ inputPaths=( '/Users/meiyu/Documents/working/MerryMerchant' '/Users/meiyu/Docume
 outPath="/Users/meiyu/Desktop/"
 # 需要查询的用户名或者邮箱，可使用正则，可打印多人
 # 例子：打印用户名`user="lzq\|Bii"`
-user="lzq"
+user="lzq\|Bii"
 #----------- end ----------#
 
 
 #----------- 流程 ----------#
 # 脚本传入的第一个参数
 param1=$1
+# 传入参数集合
+inputParams=()
+
+optIndex=0
+for opt ; do
+    inputParams[optIndex]=${opt}
+    optIndex=`expr ${optIndex} + 1`
+done
 
 # 时间
 today="today"
@@ -155,8 +163,8 @@ changeDate() {
     esac
 }
 
-if [[ ${param1} == "option" ]];then
-    # 时间选择
+# 时间选择目录
+selectDate() {
     while true; do
         echo -e "\033[32m----------------------\033[0m"
         echo -e "\033[32m请选择要打印的时间：\033[0m"
@@ -201,13 +209,28 @@ if [[ ${param1} == "option" ]];then
     esac
 
         changeDate ${paramString}
+}
 
-        # 选择分支
+# 流程执行
+pidx=0
+for option in ${inputParams[@]}
+do
+    # 时间选择
+    if [[ ${option} == "-d" ]];then
+        selectDate
+    fi
+
+    # 分支选择
+    if [[ ${option} == "-b" ]];then
         selectBranchInfo
-elif [[ ${param1} == '' ]];then
-    # 默认打印当前时间
+    fi
+done
+
+# 如果没有选择时间，默认选择今天
+if (( ${#startDate} <= 0 || ${#endDate} <= 0));then
     changeDate ${today}
 fi
+
 
 echo -e "\033[35m打印时间段：${startDate} - ${endDate}\033[0m"
 
@@ -218,6 +241,8 @@ date=$(date "+%Y%m%d%H%M%S")
 logPath=${outPath}/${date}.txt
 
 # 打印日志
+echo -e "打印时间段：${startDate} - ${endDate}" >> ${logPath}
+echo -e "---------------------------------------\n\n" >> ${logPath}
 pathCount=${#inputPaths[@]}
 for((i=0;i<${pathCount};i++)); do  
     path=${inputPaths[i]}
@@ -225,6 +250,7 @@ for((i=0;i<${pathCount};i++)); do
 
     echo -e "\033[35m正在打印：${path}\033[0m"
     cd ${path}
+    # echo -e "\033[35m命令 git shortlog --author=${user} --since="${startDate}" --until="${endDate}" ${branchText} >> ${logPath}\033[0m"
     git shortlog --author=${user} --since="${startDate}" --until="${endDate}" ${branchText} >> ${logPath}
 done
 
