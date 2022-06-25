@@ -4,7 +4,7 @@
 
 #--------- 使用说明 ---------#
 # 1. 需要填写`用户自定义修改部分`的参数
-# 2 执行脚本，默认输出当天所选择分支的日志
+# 2. 执行脚本，默认输出当天所选择分支的日志
 # 3. 如果没有执行权限使用chmod +x来获取
 # 4. 使用-h参数打印使用方法
 #----------- end ----------#
@@ -250,8 +250,6 @@ date=$(date "+%Y%m%d%H%M%S")
 logPath=${outPath}/${date}.txt
 
 # 打印日志
-echo -e "打印时间段：${startDate} - ${endDate}" >> ${logPath}
-echo -e "---------------------------------------\n\n" >> ${logPath}
 pathCount=${#inputPaths[@]}
 for((i=0;i<${pathCount};i++)); do  
     path=${inputPaths[i]}
