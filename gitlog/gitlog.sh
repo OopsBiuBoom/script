@@ -20,9 +20,9 @@
 #----- 用户自定义修改部分 -----#
 # .git文件路径，可以输入多个。
 # 例子：`inputPaths=( '/Users/mac/Documents/working/merry' '/Users/mac/Documents/script' '...')`
-inputPaths=( '/Users/meiyu/Documents/working/MerryMerchant' '/Users/meiyu/Documents/working/merry' '/Users/meiyu/Documents/working/meiplus')
+inputPaths=( '/Users/bii/Documents/working/meijia' '/Users/bii/Documents/working/merry' '/Users/bii/Documents/working/MerryMerchant')
 # 日志输出路径
-outPath="/Users/meiyu/Desktop/"
+outPath="/Users/bii/Desktop/"
 # 需要查询的用户名或者邮箱，可使用正则，可打印多人
 # 例子：打印用户名`user="lzq\|Bii"`
 user="lzq\|Bii"
