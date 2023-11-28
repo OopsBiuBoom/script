@@ -26,9 +26,7 @@ for extension in image_extensions:
 # 查找当前文件夹下MP3文件
 mp3Path = glob.glob(os.path.join(current_folder,"*.mp3"))[0]
 
-# py路径
-pyPath = ".\python38\python.exe"
-
+# 执行命令
 for index, imagePath in enumerate(image_paths):
     com = f".\python38\python.exe .\inference.py --driven_audio {mp3Path} --source_image {imagePath} --result_dir {os.path.join(current_folder,str(index))} --preprocess resize --enhancer gfpgan"
     subprocess.call(com)
