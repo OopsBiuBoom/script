@@ -6,6 +6,7 @@
 * [5. 批量mp4转mp3](#5)
 * [6. 多个ts合成一个mp4](#5)
 * [7. windows下自动合成sadtaker视频](#5)
+* [8. windows下自动合成sadtaker视频](#5)
 
 <h2 id="1">1. autoLoad</h2>
 会执行指定的命令，失败会重试，直到成功
