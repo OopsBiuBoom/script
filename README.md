@@ -7,6 +7,7 @@
 * [6. 多个ts合成一个mp4](#5)
 * [7. windows下自动合成sadtaker视频](#5)
 * [8. windows下自动合成sadtaker视频](#5)
+* [9. 给每个文件添加文件夹并把文件移动进去](#7)
 
 <h2 id="1">1. autoLoad</h2>
 会执行指定的命令，失败会重试，直到成功
@@ -61,3 +62,6 @@ sh gitlog.sh -b -d
 
 <h2 id="6">6. ts2mp4</h2>
 多个ts合成一个mp4，需要安装FFmpeg
+<h2 id="7">7. windows下自动合成sadtaker视频</h2>
+<h2 id="8">8. sadtaker多图片单MP3合成视频（python）</h2>
+<h2 id="9">9. 给每个文件添加文件夹并把文件移动进去（python）</h2>
